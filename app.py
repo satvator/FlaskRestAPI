@@ -58,6 +58,7 @@ api.add_resource(UserLogin, '/login')
 api.add_resource(ProtectedResource,'/secure')
     
     
+###################### Exclusive REST-API Example ###############################    
     
 data= [
     {"id": 1, 'name': "user1", 'age': 49},
