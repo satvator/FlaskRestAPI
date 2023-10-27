@@ -63,6 +63,8 @@ api.add_resource(ProtectedResource,'/secure')
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from jinja2 import Template
+
 
 SMPTP_SERVER_HOST= 'localhost'
 SMPTP_SERVER_PORT= 1025
@@ -89,8 +91,12 @@ def main():
         {"name": "Satyam", "email": "Satyam@example.com"},
         {"name": "Tamanna", "email": "Tamanna@example.com"}
     ]
+    
     for user in new_users:
-        send_email(user['email'], subject="First Mail#", message="This is my very first email using flask_mail")
+        with open('welcome.html') as file_:
+            template= Template(file_.read())
+            message=template.render(data=user)
+        send_email(user['email'], subject="Welcome email#", message=message)
     
     
     
