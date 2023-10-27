@@ -86,6 +86,17 @@ def send_email(to_address, subject, message):
     s.quit()
     return "Email sent successfully!!"
 
+
+def format_message(template_file, data={}):
+    with open(template_file) as file_:
+        template=Template(file_.read())
+        return template.render(data=data)
+    
+def send_welcome_message(data):
+    message=format_message('welcome.html', data=data)
+    send_email(data['email'], subject="Welcome email#", message=message)
+    
+    
 def main():
     new_users=[
         {"name": "Satyam", "email": "Satyam@example.com"},
@@ -93,11 +104,7 @@ def main():
     ]
     
     for user in new_users:
-        with open('welcome.html') as file_:
-            template= Template(file_.read())
-            message=template.render(data=user)
-        send_email(user['email'], subject="Welcome email#", message=message)
-    
+        send_welcome_message(data=user)    
     
     
 ###################### Exclusive REST-API Example ###############################    
