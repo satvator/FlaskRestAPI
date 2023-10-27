@@ -57,6 +57,42 @@ api.add_resource(UserRegistration, '/register')
 api.add_resource(UserLogin, '/login')
 api.add_resource(ProtectedResource,'/secure')
     
+
+####################### Use Flask-mail + smtplib ###################################
+
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+SMPTP_SERVER_HOST= 'localhost'
+SMPTP_SERVER_PORT= 1025
+SENDER_ADDRESS= 'email@flask.com'
+SENDER_PASSWORD= ''
+
+
+def send_email(to_address, subject, message):
+    msg=MIMEMultipart()
+    msg['FROM']=SENDER_ADDRESS
+    msg['TO']=to_address
+    msg['Subject']=subject
+    
+    msg.attach(MIMEText(message, 'html'))
+    
+    s=smtplib.SMTP(host=SMPTP_SERVER_HOST, port=SMPTP_SERVER_PORT)
+    s.login(SENDER_ADDRESS, SENDER_PASSWORD)
+    s.send_message(msg)
+    s.quit()
+    return "Email sent successfully!!"
+
+def main():
+    new_users=[
+        {"name": "Satyam", "email": "Satyam@example.com"},
+        {"name": "Tamanna", "email": "Tamanna@example.com"}
+    ]
+    for user in new_users:
+        send_email(user['email'], subject="First Mail#", message="This is my very first email using flask_mail")
+    
+    
     
 ###################### Exclusive REST-API Example ###############################    
     
